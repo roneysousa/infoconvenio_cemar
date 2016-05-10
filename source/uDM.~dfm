@@ -1,0 +1,429 @@
+object DM: TDM
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Left = 206
+  Top = 188
+  Height = 217
+  Width = 302
+  object tbSRTBA2: TTable
+    AfterPost = tbSRTBA2AfterPost
+    DatabaseName = 'InfoConvenio'
+    TableName = 'SRTBA2.DBF'
+    Left = 24
+    Top = 16
+    object tbSRTBA2BA2_SEGSEX: TStringField
+      FieldName = 'BA2_SEGSEX'
+      Size = 16
+    end
+    object tbSRTBA2BA2_SABADO: TStringField
+      FieldName = 'BA2_SABADO'
+      Size = 16
+    end
+    object tbSRTBA2BA2_DOMFER: TStringField
+      FieldName = 'BA2_DOMFER'
+      Size = 8
+    end
+    object tbSRTBA2BA2_VLBAND: TFloatField
+      FieldName = 'BA2_VLBAND'
+    end
+    object tbSRTBA2BA2_BANDE1: TFloatField
+      FieldName = 'BA2_BANDE1'
+      DisplayFormat = '###,##0.00'
+      EditFormat = '###,##0.00'
+    end
+    object tbSRTBA2BA2_BANDE2: TFloatField
+      FieldName = 'BA2_BANDE2'
+      DisplayFormat = '###,##0.00'
+      EditFormat = '###,##0.00'
+    end
+    object tbSRTBA2BA2_VLINIC: TFloatField
+      FieldName = 'BA2_VLINIC'
+      DisplayFormat = '###,##0.00'
+      EditFormat = '###,##0.00'
+    end
+  end
+  object tbNotas: TTable
+    AfterPost = tbNotasAfterPost
+    OnCalcFields = tbNotasCalcFields
+    DatabaseName = 'InfoConvenio'
+    TableName = 'SRTNO2.DBF'
+    Left = 24
+    Top = 64
+    object tbNotasNO2_NRCONV: TStringField
+      Alignment = taRightJustify
+      FieldName = 'NO2_NRCONV'
+      EditMask = '999/9999;0;_'
+      Size = 7
+    end
+    object tbNotasNO2_DTLANC: TStringField
+      Alignment = taRightJustify
+      FieldName = 'NO2_DTLANC'
+      EditMask = '9999/99/99;0;_'
+      Size = 8
+    end
+    object tbNotasNO2_NRMATR: TStringField
+      FieldName = 'NO2_NRMATR'
+      Size = 15
+    end
+    object tbNotasNO2_NMPASS: TStringField
+      FieldName = 'NO2_NMPASS'
+      Size = 40
+    end
+    object tbNotasNO2_CDORGA: TStringField
+      FieldName = 'NO2_CDORGA'
+      Size = 5
+    end
+    object tbNotasNO2_NMORGA: TStringField
+      FieldName = 'NO2_NMORGA'
+      Size = 30
+    end
+    object tbNotasNO2_UA: TStringField
+      FieldName = 'NO2_UA'
+      Size = 15
+    end
+    object tbNotasNO2_NMSAID: TStringField
+      FieldName = 'NO2_NMSAID'
+      Size = 30
+    end
+    object tbNotasNO2_DTSAID: TStringField
+      Alignment = taRightJustify
+      FieldName = 'NO2_DTSAID'
+      EditMask = '9999/99/99;0;_'
+      Size = 8
+    end
+    object tbNotasNO2_HOSAID: TStringField
+      Alignment = taRightJustify
+      FieldName = 'NO2_HOSAID'
+      EditMask = '99:99;0;_'
+      Size = 4
+    end
+    object tbNotasNO2_NMCHEG: TStringField
+      FieldName = 'NO2_NMCHEG'
+      Size = 30
+    end
+    object tbNotasNO2_DTCHEG: TStringField
+      Alignment = taRightJustify
+      FieldName = 'NO2_DTCHEG'
+      EditMask = '9999/99/99;0;_'
+      Size = 8
+    end
+    object tbNotasNO2_HOCHEG: TStringField
+      Alignment = taRightJustify
+      FieldName = 'NO2_HOCHEG'
+      EditMask = '99:99;0;_'
+      Size = 4
+    end
+    object tbNotasNO2_KMINIC: TFloatField
+      FieldName = 'NO2_KMINIC'
+    end
+    object tbNotasNO2_KMFINA: TFloatField
+      FieldName = 'NO2_KMFINA'
+    end
+    object tbNotasNO2_NRUNID: TStringField
+      FieldName = 'NO2_NRUNID'
+      Size = 3
+    end
+    object tbNotasNO2_VLNOTA: TFloatField
+      FieldName = 'NO2_VLNOTA'
+      DisplayFormat = '###,##0.#0'
+      EditFormat = '###,##0.#0'
+    end
+    object tbNotasNO2_FLBAND: TSmallintField
+      FieldName = 'NO2_FLBAND'
+    end
+    object tbNotasNO2_VLDESC: TFloatField
+      FieldName = 'NO2_VLDESC'
+      DisplayFormat = '###,##0.#0'
+      EditFormat = '###,##0.#0'
+    end
+    object tbNotasNO2_NRNOTA: TStringField
+      FieldName = 'NO2_NRNOTA'
+      Size = 10
+    end
+    object tbNotasNO2_TOTKM: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'NO2_TOTKM'
+      Calculated = True
+    end
+  end
+  object tbFeriados: TTable
+    DatabaseName = 'InfoConvenio'
+    TableName = 'SRTFER.DBF'
+    Left = 24
+    Top = 120
+    object tbFeriadosFER_DTFERI: TStringField
+      FieldName = 'FER_DTFERI'
+      Size = 4
+    end
+    object tbFeriadosFER_NMFERI: TStringField
+      FieldName = 'FER_NMFERI'
+      Size = 40
+    end
+  end
+  object qryConsulta: TQuery
+    OnCalcFields = qryConsultaCalcFields
+    DatabaseName = 'InfoConvenio'
+    SQL.Strings = (
+      'Select * from "SRTNO2"')
+    Left = 104
+    Top = 16
+    object qryConsultaNO2_NRCONV: TStringField
+      FieldName = 'NO2_NRCONV'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_NRCONV'
+      EditMask = '999/9999;0;_'
+      Size = 7
+    end
+    object qryConsultaNO2_DTLANC: TStringField
+      FieldName = 'NO2_DTLANC'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_DTLANC'
+      Size = 8
+    end
+    object qryConsultaNO2_NRMATR: TStringField
+      FieldName = 'NO2_NRMATR'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_NRMATR'
+      Size = 15
+    end
+    object qryConsultaNO2_NMPASS: TStringField
+      FieldName = 'NO2_NMPASS'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_NMPASS'
+      Size = 40
+    end
+    object qryConsultaNO2_CDORGA: TStringField
+      FieldName = 'NO2_CDORGA'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_CDORGA'
+      Size = 5
+    end
+    object qryConsultaNO2_NMORGA: TStringField
+      FieldName = 'NO2_NMORGA'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_NMORGA'
+      Size = 30
+    end
+    object qryConsultaNO2_UA: TStringField
+      FieldName = 'NO2_UA'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_UA'
+      Size = 15
+    end
+    object qryConsultaNO2_NMSAID: TStringField
+      FieldName = 'NO2_NMSAID'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_NMSAID'
+      Size = 30
+    end
+    object qryConsultaNO2_DTSAID: TStringField
+      FieldName = 'NO2_DTSAID'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_DTSAID'
+      Size = 8
+    end
+    object qryConsultaNO2_HOSAID: TStringField
+      Alignment = taRightJustify
+      FieldName = 'NO2_HOSAID'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_HOSAID'
+      EditMask = '99:99;0;_'
+      Size = 4
+    end
+    object qryConsultaNO2_NMCHEG: TStringField
+      FieldName = 'NO2_NMCHEG'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_NMCHEG'
+      Size = 30
+    end
+    object qryConsultaNO2_DTCHEG: TStringField
+      FieldName = 'NO2_DTCHEG'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_DTCHEG'
+      Size = 8
+    end
+    object qryConsultaNO2_HOCHEG: TStringField
+      Alignment = taRightJustify
+      FieldName = 'NO2_HOCHEG'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_HOCHEG'
+      EditMask = '99:99;0;_'
+      Size = 4
+    end
+    object qryConsultaNO2_KMINIC: TFloatField
+      FieldName = 'NO2_KMINIC'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_KMINIC'
+      DisplayFormat = '###,##0.#00'
+    end
+    object qryConsultaNO2_KMFINA: TFloatField
+      FieldName = 'NO2_KMFINA'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_KMFINA'
+      DisplayFormat = '###,##0.#00'
+    end
+    object qryConsultaNO2_NRUNID: TStringField
+      Alignment = taRightJustify
+      FieldName = 'NO2_NRUNID'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_NRUNID'
+      Size = 3
+    end
+    object qryConsultaNO2_VLNOTA: TFloatField
+      FieldName = 'NO2_VLNOTA'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_VLNOTA'
+      DisplayFormat = '###,##0.#0'
+    end
+    object qryConsultaNO2_FLBAND: TSmallintField
+      FieldName = 'NO2_FLBAND'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_FLBAND'
+    end
+    object qryConsultaNO2_NRNOTA: TStringField
+      FieldName = 'NO2_NRNOTA'
+      Origin = 'INFOCONVENIO."SRTNO2.DBF".NO2_NRNOTA'
+      Size = 10
+    end
+    object qryConsultaNO2_DTLANCAMENTO: TStringField
+      Alignment = taRightJustify
+      FieldKind = fkCalculated
+      FieldName = 'NO2_DTLANCAMENTO'
+      Size = 10
+      Calculated = True
+    end
+    object qryConsultaNO2_DTSAIDA: TStringField
+      Alignment = taRightJustify
+      FieldKind = fkCalculated
+      FieldName = 'NO2_DTSAIDA'
+      Size = 10
+      Calculated = True
+    end
+    object qryConsultaNO2_DTCHEGADA: TStringField
+      Alignment = taRightJustify
+      FieldKind = fkCalculated
+      FieldName = 'NO2_DTCHEGADA'
+      Size = 10
+      Calculated = True
+    end
+    object qryConsultaNO2_TORODA: TFloatField
+      FieldKind = fkCalculated
+      FieldName = 'NO2_TORODA'
+      DisplayFormat = '###,##0.#00'
+      Calculated = True
+    end
+    object qryConsultaNO2_HORASAIDA: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'NO2_HORASAIDA'
+      Size = 5
+      Calculated = True
+    end
+    object qryConsultaNO2_HOCHEGADA: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'NO2_HOCHEGADA'
+      Size = 5
+      Calculated = True
+    end
+    object qryConsultaDESCONTO: TCurrencyField
+      FieldKind = fkCalculated
+      FieldName = 'DESCONTO'
+      EditFormat = '###,##0.#0'
+      currency = False
+      Calculated = True
+    end
+    object qryConsultaLIQUIDO: TCurrencyField
+      FieldKind = fkCalculated
+      FieldName = 'LIQUIDO'
+      EditFormat = '###,##0.#0'
+      currency = False
+      Calculated = True
+    end
+  end
+  object cdsDados: TClientDataSet
+    Active = True
+    Aggregates = <>
+    Params = <>
+    Left = 104
+    Top = 72
+    Data = {
+      CD0100009619E0BD010000001800000010000000000003000000CD0107564F55
+      434845520100490000000100055749445448020002000A000A50415353414745
+      49524F0100490000000100055749445448020002002800044D41545201004900
+      00000100055749445448020002000F00054F5247414F01004900000001000557
+      49445448020002001E000255410100490000000100055749445448020002000F
+      000B4C4F43414C5F53414944410100490000000100055749445448020002001E
+      000A444154415F53414944410100490000000100055749445448020002000A00
+      0A484F52415F534149444101004900000001000557494454480200020005000A
+      4C4F43414C5F434845470100490000000100055749445448020002001E000944
+      4154415F434845470100490000000100055749445448020002000A0009484F52
+      415F4348454701004900000001000557494454480200020005000A4B4D5F494E
+      494349414C0800040000000000084B4D5F46494E414C08000400000000000750
+      52454649584F01004900000001000557494454480200020003000A4B4D5F524F
+      4441444F5308000400000000000556414C4F5208000400000001000753554254
+      5950450200490006004D6F6E6579000000}
+    object cdsDadosVOUCHER: TStringField
+      Alignment = taRightJustify
+      FieldName = 'VOUCHER'
+      Size = 10
+    end
+    object cdsDadosPASSAGEIRO: TStringField
+      FieldName = 'PASSAGEIRO'
+      Size = 40
+    end
+    object cdsDadosMATR: TStringField
+      FieldName = 'MATR'
+      Size = 15
+    end
+    object cdsDadosORGAO: TStringField
+      FieldName = 'ORGAO'
+      Size = 30
+    end
+    object cdsDadosUA: TStringField
+      FieldName = 'UA'
+      Size = 15
+    end
+    object cdsDadosLOCAL_SAIDA: TStringField
+      FieldName = 'LOCAL_SAIDA'
+      Size = 30
+    end
+    object cdsDadosDATA_SAIDA: TStringField
+      FieldName = 'DATA_SAIDA'
+      Size = 10
+    end
+    object cdsDadosHORA_SAIDA: TStringField
+      FieldName = 'HORA_SAIDA'
+      Size = 5
+    end
+    object cdsDadosLOCAL_CHEG: TStringField
+      FieldName = 'LOCAL_CHEG'
+      Size = 30
+    end
+    object cdsDadosDATA_CHEG: TStringField
+      FieldName = 'DATA_CHEG'
+      Size = 10
+    end
+    object cdsDadosHORA_CHEG: TStringField
+      FieldName = 'HORA_CHEG'
+      Size = 5
+    end
+    object cdsDadosKM_INICIAL: TFloatField
+      FieldName = 'KM_INICIAL'
+    end
+    object cdsDadosKM_FINAL: TFloatField
+      FieldName = 'KM_FINAL'
+    end
+    object cdsDadosPREFIXO: TStringField
+      Alignment = taCenter
+      FieldName = 'PREFIXO'
+      Size = 3
+    end
+    object cdsDadosKM_RODADOS: TFloatField
+      FieldName = 'KM_RODADOS'
+    end
+    object cdsDadosVALOR: TCurrencyField
+      FieldName = 'VALOR'
+    end
+  end
+  object qryNota: TQuery
+    DatabaseName = 'InfoConvenio'
+    SQL.Strings = (
+      'Select NO2_NRNOTA from "SRTNO2.DBF"'
+      'Where (NO2_NRNOTA = :pNRNOTA)')
+    Left = 208
+    Top = 64
+    ParamData = <
+      item
+        DataType = ftString
+        Name = 'pNRNOTA'
+        ParamType = ptInput
+        Value = ''
+      end>
+  end
+  object ApplicationEvents1: TApplicationEvents
+    OnException = ApplicationEvents1Exception
+    Left = 224
+    Top = 16
+  end
+end

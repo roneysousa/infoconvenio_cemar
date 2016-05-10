@@ -1,0 +1,138 @@
+procedure TfrmRelatorio.BitBtn1Click(Sender: TObject);
+Var
+    Excel : Variant;
+    Linha, Coluna:Integer;
+    M_ARQEXC, M_FILATEMP : String;
+    M_VLTOTAL : Real;
+begin
+   If (edtDTINIC.Text <>  '  /  /    ')
+       AND  (edtDTFINA.Text <>  '  /  /    ') Then
+   Begin
+     if SaveDialog1.Execute then
+         M_ARQEXC := SaveDialog1.FileName
+     Else
+         Exit;
+     //
+     If uFuncoes.Empty(M_ARQEXC) Then
+     Begin
+          Application.MessageBox('Nome de arquivo em branco!!!',
+                   'ATENÇÃO', MB_OK+MB_ICONINFORMATION+MB_APPLMODAL);
+          Exit;
+     End;
+     //
+  Try             // Me adiciona no MSN : one_dplacar@hotmail.com
+     Screen.Cursor := crHourGlass;
+     //
+     Try
+          If (dm.tbSRTBA2.Active = False ) Then
+              dm.tbSRTBA2.Open;
+          //
+           M_FILATEMP := ExtractFilePath( Application.ExeName )+'\TEMP.XLS';
+           //
+           Excel := CreateOleObject('Excel.Application');
+           {Excel.Workbooks.Add;}
+           Excel.WorkBooks.Open(M_FILATEMP);
+           //
+           Excel.WorkBooks[1].Sheets[1].Cells[1,2] := 'COMPANHIA ENERGÉTICA DO MARANHÃO - CEMAR';
+           Excel.WorkBooks[1].Sheets[1].Cells[2,2] := 'COODERNAÇÃO DE SERVIÇOS ADMINSTRATIVOS - CSA';
+           Excel.WorkBooks[1].Sheets[1].Cells[3,2] := 'CONTROLE MENSAL DE UTILIZAÇÃO DO SERVIÇO DE RÁDIO TÁXI';
+           Excel.WorkBooks[1].Sheets[1].Cells[4,2] := '';
+           //
+           Excel.WorkBooks[1].Sheets[1].Cells[5,1] := 'PERÍODO : '+ edtDTINIC.Text + ' À '+ edtDTFINA.Text;
+           Excel.WorkBooks[1].Sheets[1].Cells[5,6] := 'DATA EMISSÃO : '+ DatetoStr(Date());
+           //
+           Excel.WorkBooks[1].Sheets[1].Cells[4,14]  := 'R$ '+ FormatFloat('###,##0.#0',dm.tbSRTBA2.FieldByName('BA2_VLINIC').AsFloat)+ '    Bandeirada';
+           Excel.WorkBooks[1].Sheets[1].Cells[5,14] := 'R$ '+ FormatFloat('###,##0.#0',dm.tbSRTBA2.FieldByName('BA2_BANDE1').AsFloat)+ '    Bandeira 1';
+           Excel.WorkBooks[1].Sheets[1].Cells[6,14] := 'R$ '+ FormatFloat('###,##0.#0',dm.tbSRTBA2.FieldByName('BA2_BANDE2').AsFloat)+ '    Bandeira 2';
+           //
+           Linha := 8;
+           // Titulos da colunas
+           //Excel.WorkBooks[1].Font.Style.fsBold := True;
+           Excel.WorkBooks[1].Sheets[1].Cells[Linha,1]:= 'VOUCHER';
+           Excel.WorkBooks[1].Sheets[1].Cells[Linha,2]:= 'PASSAGEIRO';
+           Excel.WorkBooks[1].Sheets[1].Cells[Linha,3]:= 'MATRICULA';
+           Excel.WorkBooks[1].Sheets[1].Cells[Linha,4]:= 'ÓRGÃO';
+           Excel.WorkBooks[1].Sheets[1].Cells[Linha,5]:= 'UA';
+           Excel.WorkBooks[1].Sheets[1].Cells[Linha,6]:= 'LOCAL';
+           Excel.WorkBooks[1].Sheets[1].Cells[Linha,7]:= 'DATA';
+           Excel.WorkBooks[1].Sheets[1].Cells[Linha,8]:= 'HORA';
+           Excel.WorkBooks[1].Sheets[1].Cells[Linha,9]:= 'LOCAL';
+           Excel.WorkBooks[1].Sheets[1].Cells[Linha,10]:= 'DATA';
+           Excel.WorkBooks[1].Sheets[1].Cells[Linha,11]:= 'HORA';
+           Excel.WorkBooks[1].Sheets[1].Cells[Linha,12]:= 'KM INICIAL';
+           Excel.WorkBooks[1].Sheets[1].Cells[Linha,13]:= 'KM FINAL';
+           Excel.WorkBooks[1].Sheets[1].Cells[Linha,14]:= 'PREFIXO';
+           Excel.WorkBooks[1].Sheets[1].Cells[Linha,15]:= 'KM RODADOS';
+           Excel.WorkBooks[1].Sheets[1].Cells[Linha,16]:= 'VALOR';
+           //
+           Linha := 9;
+           With dm.qryConsulta do
+             begin
+               SQL.Clear;
+               Close;
+               SQL.Add('Select * from SRTNO2');
+               SQL.Add('Where (NO2_DTLANC >= :pDTINIC) and (NO2_DTLANC <= :pDTFINA)');
+               SQL.Add('order by NO2_DTSAID');
+               ParamByname('pDTINIC').AsString := uFuncoes.Data(edtDTINIC.Text,'1');
+               ParamByname('pDTFINA').AsString := uFuncoes.Data(edtDTFINA.Text,'1');
+               Prepare;
+               Open;
+               First;
+             End;
+           //
+           If (dm.cdsDados.Active = False) Then
+               dm.cdsDados.Open;
+           //
+           dm.cdsDados.EmptyDataSet;
+           //
+           M_VLTOTAL := 0;
+           While not (dm.qryConsulta.Eof) do
+              begin
+                   Excel.WorkBooks[1].Sheets[1].Cells[Linha,1]:= dm.qryConsulta.FieldByName('NO2_NRNOTA').AsString;
+                   Excel.WorkBooks[1].Sheets[1].Cells[Linha,2]:= dm.qryConsulta.FieldByName('NO2_NMPASS').AsString;
+                   Excel.WorkBooks[1].Sheets[1].Cells[Linha,3]:= dm.qryConsulta.FieldByName('NO2_NRMATR').AsString;
+                   Excel.WorkBooks[1].Sheets[1].Cells[Linha,4]:= dm.qryConsulta.FieldByName('NO2_NMORGA').AsString;
+                   Excel.WorkBooks[1].Sheets[1].Cells[Linha,5]:= dm.qryConsulta.FieldByName('NO2_UA').AsString;
+                   Excel.WorkBooks[1].Sheets[1].Cells[Linha,6]:= dm.qryConsulta.FieldByName('NO2_NMSAID').AsString;
+                   Excel.WorkBooks[1].Sheets[1].Cells[Linha,7]:= dm.qryConsulta.FieldByName('NO2_DTSAIDA').AsString;
+                   Excel.WorkBooks[1].Sheets[1].Cells[Linha,8]:= dm.qryConsulta.FieldByName('NO2_HORASAIDA').AsString;
+                   Excel.WorkBooks[1].Sheets[1].Cells[Linha,9]:= dm.qryConsulta.FieldByName('NO2_NMCHEG').AsString;
+                   Excel.WorkBooks[1].Sheets[1].Cells[Linha,10]:= dm.qryConsulta.FieldByName('NO2_DTCHEGADA').AsString;
+                   Excel.WorkBooks[1].Sheets[1].Cells[Linha,11]:= dm.qryConsulta.FieldByName('NO2_HOCHEGADA').AsString;
+                   Excel.WorkBooks[1].Sheets[1].Cells[Linha,12]:= dm.qryConsulta.FieldByName('NO2_KMINIC').AsFloat;
+                   Excel.WorkBooks[1].Sheets[1].Cells[Linha,13]:= dm.qryConsulta.FieldByName('NO2_KMFINA').AsFloat;
+                   Excel.WorkBooks[1].Sheets[1].Cells[Linha,14]:= dm.qryConsulta.FieldByName('NO2_NRUNID').AsString;
+                   Excel.WorkBooks[1].Sheets[1].Cells[Linha,15]:= dm.qryConsulta.FieldByName('NO2_TORODA').AsFloat;
+                   Excel.WorkBooks[1].Sheets[1].Cells[Linha,16]:= dm.qryConsulta.FieldByName('NO2_VLNOTA').AsCurrency;
+                   //
+                   M_VLTOTAL := M_VLTOTAL + dm.qryConsulta.FieldByName('NO2_VLNOTA').AsCurrency;
+                   //
+                   dm.qryConsulta.Next;
+                   Linha:=Linha+1;
+              end;
+              //
+              Excel.WorkBooks[1].Sheets[1].Cells[Linha,16]:= M_VLTOTAL;
+              //
+           If FileExists(M_ARQEXC) Then
+              DeleteFile(M_ARQEXC);
+           //
+           Excel.WorkBooks[1].SaveAs(M_ARQEXC);
+           PostMessage(FindWindow(nil, 'Excel'), WM_CLOSE,0,0);
+           //
+           Application.MessageBox('Arquivo gerado com sucesso!!!',
+              'ATENÇÃO', MB_OK+MB_ICONINFORMATION+MB_APPLMODAL);
+        Except
+           on Exc:Exception do
+           begin
+                Application.MessageBox(PChar('Error ao tentar gerar arquivo.'+#13
+                  + Exc.Message),
+                  'ATENÇÃO', MB_OK+MB_ICONINFORMATION+MB_APPLMODAL);
+           End;
+        End;
+      //
+     finally
+       Screen.Cursor := crDefault;
+     end;
+   End;
+   Application.ProcessMessages;
+end;
